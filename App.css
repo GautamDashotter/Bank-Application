@@ -1,0 +1,215 @@
+#root {
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* HEADER */
+
+header {
+  background-color: #1f4e79;
+  color: white;
+  padding: 25px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+header p {
+  margin: 8px 0 0;
+}
+
+/* MAIN CARD */
+
+.card {
+  width: 90%;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 35px;
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.card h2 {
+  margin-top: 0;
+  color: #1f4e79;
+  font-size: 30px;
+}
+
+/* BUTTONS */
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 7px;
+  background-color: #1f4e79;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #163a5c;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* FORMS */
+
+form {
+  margin-top: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 7px;
+  background-color: white;
+  color: #333;
+  font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: 2px solid #1f4e79;
+  border-color: #1f4e79;
+}
+
+/* MESSAGES */
+
+.message {
+  margin-top: 22px;
+  font-weight: bold;
+  color: #1f4e79;
+}
+
+/* ACCOUNT INFORMATION */
+
+.account-result {
+  margin-top: 30px;
+  padding: 22px;
+  background-color: #f4f6f8;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.account-result h3 {
+  margin-top: 0;
+  color: #1f4e79;
+}
+
+.account-result p {
+  margin: 10px 0;
+}
+
+/* BANKING ACTIONS */
+
+.bank-actions {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid #ddd;
+}
+
+.bank-actions h3 {
+  color: #1f4e79;
+  margin-bottom: 20px;
+}
+
+/* TRANSACTION PAGE */
+
+.transaction-card {
+  max-width: 700px;
+}
+
+.transaction-account-info {
+  margin-bottom: 25px;
+  padding: 15px;
+  background-color: #f4f6f8;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.transaction-account-info p {
+  margin: 8px 0;
+}
+
+.transaction-list {
+  margin-top: 25px;
+}
+
+.transaction-item {
+  margin-bottom: 15px;
+  padding: 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  text-align: left;
+}
+
+.transaction-item p {
+  margin: 7px 0;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .card {
+    width: 95%;
+    margin: 25px auto;
+    padding: 20px;
+  }
+
+  header h1 {
+    font-size: 25px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}
