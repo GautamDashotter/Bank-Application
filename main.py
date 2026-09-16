@@ -1,19 +1,14 @@
 """
-Controller Layer — REST API routes (FastAPI).
+Controller Layer — REST API routes (FastAPI), now backed by MongoDB Atlas.
 
-Endpoints match the project spec exactly:
-  POST   /api/accounts                    -> create account
-  GET    /api/accounts/{id}                -> get account details
-  POST   /api/accounts/{id}/deposit         -> deposit money
-  POST   /api/accounts/{id}/withdraw        -> withdraw money
-  GET    /api/accounts/{id}/transactions    -> transaction history
-
-Day 1 uses in-memory storage (see app/store.py). Day 2 swaps this for
-MySQL via a Repository layer, without changing these routes or the
-Service layer's public interface.
+Same endpoints and same request/response contract as before -- only the
+underlying data source changed, from an in-memory dict / MySQL to MongoDB.
 """
-from fastapi import FastAPI, status
+from fastapi import FastAPI, Depends, status
+from pymongo.database import Database
+from fastapi.middleware.cors import CORSMiddleware
 
+from app.database import get_db
 from app.models import (
     CreateAccountRequest,
     DepositRequest,
@@ -24,42 +19,43 @@ from app.models import (
 from app.service import AccountService
 
 app = FastAPI(
-    title="Simple Bank API (No DB)",
-    description="Day 1: REST API using in-memory storage",
-    version="1.0.0",
+    title="Simple Bank API (MongoDB Atlas)",
+    description="Day 2: REST API backed by MongoDB Atlas",
+    version="2.0.0",
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-
 @app.post("/api/accounts", response_model=Account, status_code=status.HTTP_201_CREATED)
-def create_account(payload: CreateAccountRequest):
-    """Create a new account (and a new user, if userId is not supplied)."""
-    return AccountService.create_account(payload)
+def create_account(payload: CreateAccountRequest, db: Database = Depends(get_db)):
+    return AccountService.create_account(db, payload)
 
 
 @app.get("/api/accounts/{account_id}", response_model=Account)
-def get_account(account_id: int):
-    """Get account details by ID."""
-    return AccountService.get_account(account_id)
+def get_account(account_id: int, db: Database = Depends(get_db)):
+    return AccountService.get_account(db, account_id)
 
 
 @app.post("/api/accounts/{account_id}/deposit", response_model=Account)
-def deposit(account_id: int, payload: DepositRequest):
-    """Deposit money into an account."""
-    return AccountService.deposit(account_id, payload.amount)
+def deposit(account_id: int, payload: DepositRequest, db: Database = Depends(get_db)):
+    return AccountService.deposit(db, account_id, payload.amount)
 
 
 @app.post("/api/accounts/{account_id}/withdraw", response_model=Account)
-def withdraw(account_id: int, payload: WithdrawRequest):
-    """Withdraw money from an account. Rejects withdrawals exceeding the balance."""
-    return AccountService.withdraw(account_id, payload.amount)
+def withdraw(account_id: int, payload: WithdrawRequest, db: Database = Depends(get_db)):
+    return AccountService.withdraw(db, account_id, payload.amount)
 
 
 @app.get("/api/accounts/{account_id}/transactions", response_model=list[Transaction])
-def get_transactions(account_id: int):
-    """View transaction history for an account."""
-    return AccountService.get_transactions(account_id)
+def get_transactions(account_id: int, db: Database = Depends(get_db)):
+    return AccountService.get_transactions(db, account_id)
 
 
 @app.get("/")
 def health_check():
-    return {"status": "ok", "service": "Simple Bank API (No DB)"}
+    return {"status": "ok", "service": "Simple Bank API (MongoDB Atlas)"}
