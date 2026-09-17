@@ -40,18 +40,3 @@ class Transaction(BaseModel):
     txn_type: str
     amount: float
     created_at: datetime
-    
-class RegisterRequest(BaseModel):
-    name: str
-    email: str
-    password: str
-
-
-class LoginRequest(BaseModel):
-    email: str
-    password: str
-
-
-class TokenResponse(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
